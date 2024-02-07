@@ -1,6 +1,8 @@
 import 'package:chat_app/components/rounded_button.dart';
+import 'package:chat_app/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -11,6 +13,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  late String fullName;
+  late String email;
+  late String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +39,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                fullName = value;
               },
               decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter full name',
@@ -43,8 +51,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 16.0,
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                email = value;
               },
               decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter your email',
@@ -54,8 +64,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 16.0,
             ),
             TextField(
+              obscureText: true,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                password = value;
               },
               decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter your password',
@@ -66,7 +78,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             RoundedButton(
               title: "Register",
-              onPressed: () {},
+              onPressed: () async {
+                // Capture the context before the async gap.
+                try {
+                  final BuildContext safeContext = context;
+                  final newUser = await _auth.createUserWithEmailAndPassword(
+                      email: email, password: password);
+                  if (newUser.user != null) {
+                    await newUser.user!.updateDisplayName(fullName);
+                    await newUser.user!
+                        .reload(); // Reload is necessary to ensure the profile update is reflected.
+                  }
+                  if (newUser != null) {
+                    if (mounted) {
+                      Navigator.pushNamed(safeContext, ChatScreen.id);
+                    }
+                  }
+                } catch (err) {
+                  debugPrint(err.toString());
+                }
+              },
             ),
           ],
         ),
