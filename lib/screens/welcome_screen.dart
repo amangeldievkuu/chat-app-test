@@ -1,3 +1,5 @@
+import 'package:chat_app/screens/login_screen.dart';
+import 'package:chat_app/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -22,10 +24,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 60.0,
-                  child: Image(
-                    image: AssetImage('images/logo.png'),
+                Hero(
+                  tag: 'logo',
+                  child: SizedBox(
+                    height: 60.0,
+                    child: Image(
+                      image: AssetImage('images/logo.png'),
+                    ),
                   ),
                 ),
                 Text(
@@ -44,14 +49,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 child: const Text("Log In"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, LoginScreen.id);
+                },
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 child: const Text("Register"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, RegistrationScreen.id);
+                },
               ),
             ),
           ],
