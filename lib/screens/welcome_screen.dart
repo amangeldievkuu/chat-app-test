@@ -1,6 +1,7 @@
 import 'package:chat_app/screens/login_screen.dart';
 import 'package:chat_app/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/components/rounded_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -45,24 +46,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             const SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                child: const Text("Log In"),
-                onPressed: () {
-                  Navigator.pushNamed(context, LoginScreen.id);
-                },
-              ),
+            RoundedButton(
+              title: "Log in",
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                child: const Text("Register"),
-                onPressed: () {
-                  Navigator.pushNamed(context, RegistrationScreen.id);
-                },
-              ),
-            ),
+            RoundedButton(
+              title: "Register",
+              onPressed: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
+            )
           ],
         ),
       ),
