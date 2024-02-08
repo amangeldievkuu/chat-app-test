@@ -12,8 +12,9 @@ class RoundedButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
-        style: const ButtonStyle(
-          padding: MaterialStatePropertyAll(
+        style: ButtonStyle(
+          elevation: MaterialStateProperty.all(2.0),
+          padding: const MaterialStatePropertyAll(
             EdgeInsets.symmetric(vertical: 16.0),
           ),
         ),
